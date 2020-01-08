@@ -25,8 +25,8 @@ namespace CCC.MVC.Controllers
             var output = model.Input.Replace("<", "&lt;");
             output = output.Replace(">", "&gt;");
             output = output.Replace("reeeturn", "<br />");
-            output = "<pre><code>" + output;
-            output += "</code></pre>";
+            output = output.Replace("&nbsp;&nbsp;", "&emsp;");
+            output = "<pre><code>" + output + "</code></pre>";
 
             model.Output = output;
 
