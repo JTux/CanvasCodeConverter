@@ -1,0 +1,30 @@
+﻿.body-content {
+    height: 100vh;
+    padding-left: 15px;
+    padding-right: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1
+}
+
+.footer-content {
+    flex: .01;
+}
+
+.code-box {
+    border: solid 1px black;
+    min-width: 100%;
+    max-width: 100%;
+    height: 80vh;
+    overflow: auto;
+}
+
+.box-header {
+    width: 100%;
+    /*font-size: 1.25rem;*/
+    text-align: center;
+}
+

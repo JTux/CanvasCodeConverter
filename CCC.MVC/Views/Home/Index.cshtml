@@ -1,0 +1,62 @@
+﻿@model CCC.MVC.Models.CodeModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { style = "width: 100%;" }))
+        {
+            @Html.TextAreaFor(m => m.Input, new { id = "inputText", style = "display:none;" })
+
+            <h3 class="box-header">Insert Code Here</h3>
+            @Html.TextAreaFor(m => m.MoreWords, new { id = "userInput", @class = "code-box" })
+
+            @Html.ActionLink("Reset", "Index", null, new { @class = "btn btn-secondary", style = "border: solid 1px lightgrey" })
+            <input type="submit" value="Convert" class="btn btn-primary" style="float: right;" />
+        }
+    </div>
+    <div class="col-md-6">
+        <h3 class="box-header">Copy Canvas Compatible Code Here</h3>
+        <div class="code-box endme">
+            @Html.DisplayFor(m => m.Output)
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#userInput').on('input', function () {
+            var linebreakText = $('#userInput').val().replace(/[\r\n|\r|\n]/ig, "reeeturn");
+            var text = linebreakText.replace(/[\s \s]/ig, "&nbsp;");
+            $('#inputText').val(text);
+        });
+    });
+</script>
+
+<div onclick="copyTextToClipboard()">ayy</div>
+
+<script>
+    function copyTextToClipboard() {
+        var textArea = document.querySelector('.endme');
+
+        if (document.selection) { // IE
+            var range = document.body.createTextRange();
+            range.moveToElementText(textArea);
+            range.select();
+        } else if (window.getSelection) {
+            var range = document.createRange();
+            range.selectNode(textArea);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+        }
+
+        try {
+            var successful = document.execCommand('copy');
+        } catch (err) {
+            console.log('Oops, unable to copy');
+        }
+    }
+</script>
