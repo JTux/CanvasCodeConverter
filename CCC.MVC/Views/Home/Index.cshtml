@@ -15,6 +15,8 @@
 
             @Html.ActionLink("Reset", "Index", null, new { @class = "btn btn-danger", style = "border: solid 1px lightgrey" })
             <input type="submit" value="Convert" class="btn btn-primary" style="float: right;" />
+            @Html.LabelFor(m => m.HasLineNumbers)
+            @Html.CheckBoxFor(m => m.HasLineNumbers);
         }
     </div>
     <div class="col-md-6">
@@ -22,7 +24,7 @@
         <div class="code-box endme">
             @Html.DisplayFor(m => m.Output)
         </div>
-        <div onclick="copyTextToClipboard()" class="btn btn-primary" style="float: right; margin-top: 5px" >Copy to Clipboard</div>
+        <div onclick="copyTextToClipboard()" class="btn btn-primary" style="float: right; margin-top: 5px">Copy to Clipboard</div>
     </div>
 </div>
 
@@ -58,4 +60,5 @@
             console.log('Oops, unable to copy');
         }
     }
+
 </script>
