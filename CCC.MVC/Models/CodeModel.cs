@@ -12,5 +12,7 @@ namespace CCC.MVC.Models
         public string[] MoreWords { get; set; }
 
         public string Output { get; set; }
+
+        public bool HasLineNumbers { get; set; }
     }
 }

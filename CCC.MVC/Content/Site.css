@@ -35,3 +35,8 @@
 footer p {
     margin-top: 7px;
 }
+
+.control-container {
+    display: flex;
+    justify-content: space-between;
+}
