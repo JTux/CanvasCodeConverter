@@ -12,11 +12,14 @@
 
             <h3 class="box-header">Insert Code Here</h3>
             @Html.TextAreaFor(m => m.MoreWords, new { id = "userInput", @class = "code-box" })
-
-            @Html.ActionLink("Reset", "Index", null, new { @class = "btn btn-danger", style = "border: solid 1px lightgrey" })
-            <input type="submit" value="Convert" class="btn btn-primary" style="float: right;" />
-            @Html.LabelFor(m => m.HasLineNumbers)
-            @Html.CheckBoxFor(m => m.HasLineNumbers);
+            <div class="control-container">
+                @Html.ActionLink("Reset", "Index", null, new { @class = "btn btn-danger", style = "border: solid 1px lightgrey" })
+                <div>
+                    <button class="btn btn-primary line-number-button">Include Line Numbers</button>
+                    @Html.CheckBoxFor(m => m.HasLineNumbers, new { @class = "line-number-checkbox", style = "display: none;" })
+                </div>
+                <input type="submit" value="Convert" class="btn btn-primary" style="float: right;" />
+            </div>
         }
     </div>
     <div class="col-md-6">
@@ -60,5 +63,32 @@
             console.log('Oops, unable to copy');
         }
     }
+
+</script>
+
+<script>
+    const lineNumberButton = document.querySelector('.line-number-button');
+    const checkBox = document.querySelector('.line-number-checkbox');
+
+    function handleLineNumberClick(e) {
+        e.preventDefault();
+        checkBox.checked = !checkBox.checked;
+
+
+        if (checkBox.checked) {
+            lineNumberButton.classList.remove('btn-primary');
+            lineNumberButton.classList.add('btn-success');
+            lineNumberButton.innerHTML += `   <i class="glyphicon glyphicon-ok"></i>`
+        } else {
+            lineNumberButton.classList.remove('btn-success');
+            lineNumberButton.classList.add('btn-primary');
+            lineNumberButton.innerHTML = "Include Line Numbers";
+        }
+
+    }
+
+    lineNumberButton.addEventListener('click', handleLineNumberClick);
+
+
 
 </script>

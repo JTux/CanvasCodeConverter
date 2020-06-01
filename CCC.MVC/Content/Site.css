@@ -35,3 +35,12 @@
 footer p {
     margin-top: 7px;
 }
+
+.line-number-check {
+
+}
+
+.control-container {
+    display: flex;
+    justify-content: space-between;
+}
