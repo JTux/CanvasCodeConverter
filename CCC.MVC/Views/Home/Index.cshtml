@@ -74,7 +74,6 @@
         e.preventDefault();
         checkBox.checked = !checkBox.checked;
 
-
         if (checkBox.checked) {
             lineNumberButton.classList.remove('btn-primary');
             lineNumberButton.classList.add('btn-success');
@@ -84,11 +83,7 @@
             lineNumberButton.classList.add('btn-primary');
             lineNumberButton.innerHTML = "Include Line Numbers";
         }
-
     }
 
     lineNumberButton.addEventListener('click', handleLineNumberClick);
-
-
-
 </script>

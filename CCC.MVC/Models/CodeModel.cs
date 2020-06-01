@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
@@ -14,7 +13,6 @@ namespace CCC.MVC.Models
 
         public string Output { get; set; }
 
-        [DisplayName("Include line numbers?")]
         public bool HasLineNumbers { get; set; }
     }
 }
