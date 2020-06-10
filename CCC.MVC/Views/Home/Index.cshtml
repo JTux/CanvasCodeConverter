@@ -16,7 +16,7 @@
                 @Html.ActionLink("Reset", "Index", null, new { @class = "btn btn-danger", style = "border: solid 1px lightgrey" })
                 <div>
                     <button class="btn btn-primary line-number-button">Include Line Numbers</button>
-                    @Html.CheckBoxFor(m => m.HasLineNumbers, new { @class = "line-number-checkbox", style = "display: none;" })
+                    @Html.CheckBoxFor(m => m.HasLineNumbers, new { @class = "line-number-checkbox", style = "display: none;", @checked=Model.HasLineNumbers })
                 </div>
                 <input type="submit" value="Convert" class="btn btn-primary" style="float: right;" />
             </div>
@@ -70,15 +70,23 @@
     const lineNumberButton = document.querySelector('.line-number-button');
     const checkBox = document.querySelector('.line-number-checkbox');
 
+    checkBox.checked = false;
+    console.log(checkBox.checked);
+
     function handleLineNumberClick(e) {
         e.preventDefault();
         checkBox.checked = !checkBox.checked;
+        console.log(checkBox.checked);
+        toggleButton(checkBox.checked);
+    }
 
-        if (checkBox.checked) {
+    function toggleButton(checked) {
+        if (checked) {
             lineNumberButton.classList.remove('btn-primary');
             lineNumberButton.classList.add('btn-success');
             lineNumberButton.innerHTML += `   <i class="glyphicon glyphicon-ok"></i>`
-        } else {
+        }
+        else {
             lineNumberButton.classList.remove('btn-success');
             lineNumberButton.classList.add('btn-primary');
             lineNumberButton.innerHTML = "Include Line Numbers";

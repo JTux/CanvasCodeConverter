@@ -12,7 +12,8 @@ namespace CCC.MVC.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            CodeModel model = new CodeModel();
+            return View(model);
         }
 
         [HttpPost]
