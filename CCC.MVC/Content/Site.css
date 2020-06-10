@@ -40,3 +40,14 @@ footer p {
     display: flex;
     justify-content: space-between;
 }
+input:disabled {
+    background: #dddddd;
+}
+
+#startingLineNumber {
+    width: 20%;
+    margin-left: 0.5em;
+}
+.line-num-controls {
+    width: 60%;
+}
