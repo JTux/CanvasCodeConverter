@@ -23,8 +23,11 @@ namespace CCC.MVC.Controllers
             if (model.Input == null)
                 return View(model);
 
+            if (model.StartingLineNumber < 0 || model.StartingLineNumber > int.MaxValue)
+                return View(model);
+
             if (model.HasLineNumbers)
-                model.Input = AddLineNumbers(model.Input);
+                model.Input = AddLineNumbers(model.Input, model.StartingLineNumber);
 
             var output = model.Input.Replace("<", "&lt;");
             output = output.Replace(">", "&gt;");
@@ -37,17 +40,17 @@ namespace CCC.MVC.Controllers
             return View(model);
         }
 
-        private string AddLineNumbers(string input)
+        private string AddLineNumbers(string input, int startingLineNum)
         {
             var lineBreakArray = input
                 .Split(new string[] { "reeeturn" }, StringSplitOptions.None)
                 .ToList();
 
-            int line = 1;
+            int line = startingLineNum;
             for (int i = 0; i < lineBreakArray.Count; i += 2)
             {
                 string indentation = GetIndentation(line);
-                lineBreakArray.Insert(i, line == 1 ? $"{line}{indentation}" : $"reeeturn{line}{indentation}");
+                lineBreakArray.Insert(i, line == startingLineNum ? $"{line}{indentation}" : $"reeeturn{line}{indentation}");
                 line++;
             }
 

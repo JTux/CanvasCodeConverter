@@ -13,12 +13,18 @@
             <h3 class="box-header">Insert Code Here</h3>
             @Html.TextAreaFor(m => m.MoreWords, new { id = "userInput", @class = "code-box" })
             <div class="control-container">
-                @Html.ActionLink("Reset", "Index", null, new { @class = "btn btn-danger", style = "border: solid 1px lightgrey" })
                 <div>
-                    <button class="btn btn-primary line-number-button">Include Line Numbers</button>
-                    @Html.CheckBoxFor(m => m.HasLineNumbers, new { @class = "line-number-checkbox", style = "display: none;", @checked=Model.HasLineNumbers })
+                    @Html.ActionLink("Reset", "Index", null, new { @class = "btn btn-danger", style = "border: solid 1px lightgrey" })
                 </div>
-                <input type="submit" value="Convert" class="btn btn-primary" style="float: right;" />
+                <div class="line-num-controls">
+                    <button class="btn btn-primary line-number-button">Include Line Numbers</button>
+                    @Html.CheckBoxFor(m => m.HasLineNumbers, new { @class = "line-number-checkbox", style = "display: none;", @checked = Model.HasLineNumbers })
+                    @Html.LabelFor(m => m.StartingLineNumber)
+                    @Html.TextBoxFor(m => m.StartingLineNumber, new { id = "startingLineNumber", disabled = true })
+                </div>
+                <div>
+                    <input type="submit" value="Convert" class="btn btn-primary" style="float: right;" />
+                </div>
             </div>
         }
     </div>
@@ -69,15 +75,24 @@
 <script>
     const lineNumberButton = document.querySelector('.line-number-button');
     const checkBox = document.querySelector('.line-number-checkbox');
+    const lineNumInput = document.querySelector('#startingLineNumber');
 
     checkBox.checked = false;
-    console.log(checkBox.checked);
 
     function handleLineNumberClick(e) {
         e.preventDefault();
         checkBox.checked = !checkBox.checked;
-        console.log(checkBox.checked);
         toggleButton(checkBox.checked);
+        toggleInputDisabled(checkBox.checked);
+    }
+
+    function toggleInputDisabled(checked) {
+        if (checked) {
+            lineNumInput.disabled = false;
+        }
+        else {
+            lineNumInput.disabled = true;
+        }
     }
 
     function toggleButton(checked) {
