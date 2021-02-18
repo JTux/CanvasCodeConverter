@@ -33,7 +33,7 @@ namespace CCC.MVC.Controllers
             output = output.Replace(">", "&gt;");
             output = output.Replace("reeeturn", "<br />");
             output = output.Replace("&nbsp;&nbsp;", "&emsp;");
-            output = "<pre><code>" + output + "</code></pre>";
+            output = "<pre>" + output + "</pre>";
 
             model.Output = output;
 
