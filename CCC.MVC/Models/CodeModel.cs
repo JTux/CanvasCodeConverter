@@ -15,6 +15,8 @@ namespace CCC.MVC.Models
         public string Output { get; set; }
 
         public bool HasLineNumbers { get; set; }
+        public bool IsTerminal { get; set; }
+        public bool IsCopyable { get; set; }
 
         [Display(Name="Start At Line:")]
         public int StartingLineNumber { get; set; } = 1;

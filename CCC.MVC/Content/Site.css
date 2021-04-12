@@ -51,3 +51,12 @@ input:disabled {
 .line-num-controls {
     width: 60%;
 }
+
+.btn-terminal {
+    background-color: #333;
+    color: #fff !important;
+}
+
+.btn-terminal:hover {
+    background-color: #222;
+}

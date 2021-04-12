@@ -33,7 +33,12 @@ namespace CCC.MVC.Controllers
             output = output.Replace(">", "&gt;");
             output = output.Replace("reeeturn", "<br />");
             output = output.Replace("&nbsp;&nbsp;", "&emsp;");
-            output = "<pre><code>" + output + "</code></pre>";
+            output = $"<pre" +
+                $"{((model.IsCopyable || model.IsTerminal) ? " class=\"" : "")}" +
+                $"{(model.IsTerminal ? "terminal":"")}" +
+                $"{(model.IsCopyable ? " copyable" : "")}" +
+                $"{((model.IsCopyable || model.IsTerminal) ? "\"" : "")}" +
+                $">" + output + "</pre>";
 
             model.Output = output;
 
