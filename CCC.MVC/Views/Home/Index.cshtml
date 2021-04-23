@@ -12,28 +12,32 @@
 
             <h3 class="box-header">Insert Code Here</h3>
             @Html.TextAreaFor(m => m.MoreWords, new { id = "userInput", @class = "code-box" })
-    <div class="control-container">
-        <div>
-            @Html.ActionLink("Reset", "Index", null, new { @class = "btn btn-danger", style = "border: solid 1px lightgrey" })
-        </div>
-        <div>
-            <button class="btn @(Model.IsTerminal ? "btn-terminal" : "btn-primary") terminal-button">Terminal Display</button>
-            @Html.CheckBoxFor(m => m.IsTerminal, new { @class = "terminal-checkbox", style = "display: none;", @checked = Model.IsTerminal })
-        </div>
-        <div>
-            <button class="btn @(Model.IsCopyable ? "btn-warning" : "btn-primary") copyable-button">Copyable</button>
-            @Html.CheckBoxFor(m => m.IsCopyable, new { @class = "copyable-checkbox", style = "display: none;", @checked = Model.IsCopyable })
-        </div>
-        <div>
-            <button class="btn btn-primary line-number-button">Include Line Numbers</button>
-            @Html.CheckBoxFor(m => m.HasLineNumbers, new { @class = "line-number-checkbox", style = "display: none;", @checked = Model.HasLineNumbers })
-            @Html.LabelFor(m => m.StartingLineNumber)
-            @Html.TextBoxFor(m => m.StartingLineNumber, new { id = "startingLineNumber", disabled = true })
-        </div>
-        <div>
-            <input type="submit" value="Convert" class="btn btn-primary" style="float: right;" />
-        </div>
-    </div>
+            <div class="control-container">
+                <div>
+                    @Html.ActionLink("Reset", "Index", null, new { @class = "btn btn-danger", style = "border: solid 1px lightgrey" })
+                </div>
+                <div>
+                    <button class="btn @(Model.IsCodeTag ? "btn-info" : "btn-primary") codeTag-button">@(Model.IsCodeTag ? "Code Tag" : "Pre Tag")</button>
+                    @Html.CheckBoxFor(m => m.IsCodeTag, new { @class = "codeTag-checkbox", style = "display: none;", @checked = Model.IsCodeTag })
+                </div>
+                <div>
+                    <button class="btn @(Model.IsTerminal ? "btn-terminal" : "btn-primary") terminal-button">Terminal Display</button>
+                    @Html.CheckBoxFor(m => m.IsTerminal, new { @class = "terminal-checkbox", style = "display: none;", @checked = Model.IsTerminal })
+                </div>
+                <div>
+                    <button class="btn @(Model.IsCopyable ? "btn-warning" : "btn-primary") copyable-button">Copyable</button>
+                    @Html.CheckBoxFor(m => m.IsCopyable, new { @class = "copyable-checkbox", style = "display: none;", @checked = Model.IsCopyable })
+                </div>
+                <div>
+                    <button class="btn @(Model.HasLineNumbers ? "btn-success" : "btn-primary") line-number-button">Line Numbers</button>
+                    @Html.CheckBoxFor(m => m.HasLineNumbers, new { @class = "line-number-checkbox", style = "display: none;" })
+                    @Html.LabelFor(m => m.StartingLineNumber)
+                    @Html.TextBoxFor(m => m.StartingLineNumber, new { id = "startingLineNumber" })
+                </div>
+                <div>
+                    <input type="submit" value="Convert" class="btn btn-primary" style="float: right;" />
+                </div>
+            </div>
         }
     </div>
     <div class="col-md-6">
@@ -81,87 +85,45 @@
 </script>
 
 <script>
-    const terminalButton = document.querySelector('.terminal-button');
-    const terminalCheckBox = document.querySelector('.terminal-checkbox');
+    function addOnClickToggle(buttonClass, checkBoxClass, activeClass, inactiveClass, extraSteps) {
+        let button = document.querySelector(buttonClass);
+        let checkbox = document.querySelector(checkBoxClass);
+        button.addEventListener('click', e => {
+            e.preventDefault();
+            checkbox.checked = !checkbox.checked;
 
-    function handleTerminalClick(e) {
-        e.preventDefault();
-        terminalCheckBox.checked = !terminalCheckBox.checked;
-        toggleTerminalButton(terminalCheckBox.checked);
+            if (checkbox.checked) {
+                button.classList.remove(inactiveClass ?? 'btn-primary');
+                button.classList.add(activeClass ?? 'btn-success');
+            } else {
+                button.classList.remove(activeClass ?? 'btn-success');
+                button.classList.add(inactiveClass ?? 'btn-primary');
+            }
+
+            if (extraSteps) {
+                extraSteps();
+            }
+        });
     }
 
-    function toggleTerminalButton(checked) {
-        if (checked) {
-            terminalButton.classList.remove('btn-primary');
-            terminalButton.classList.add('btn-terminal');
-        }
-        else {
-            terminalButton.classList.remove('btn-terminal');
-            terminalButton.classList.add('btn-primary');
-        }
+    function toggleLineNumbers() {
+        let checkbox = document.querySelector('.line-number-checkbox');
+        let lineNumInput = document.querySelector('#startingLineNumber');
+
+        checkbox.checked
+            ? lineNumInput.disabled = false
+            : lineNumInput.disabled = true;
     }
 
-    terminalButton.addEventListener('click', handleTerminalClick);
-</script>
-<script>
-    const copyableButton = document.querySelector('.copyable-button');
-    const copyableCheckBox = document.querySelector('.copyable-checkbox');
+    function toggleCodeTag() {
+        let button = document.querySelector('.codeTag-button');
+        let checkbox = document.querySelector('.codeTag-checkbox');
 
-    function handleCopyableClick(e) {
-        e.preventDefault();
-        copyableCheckBox.checked = !copyableCheckBox.checked;
-        toggleCopyableButton(copyableCheckBox.checked);
+        button.textContent = checkbox.checked ? 'Code Tag' : 'Pre Tag';
     }
 
-    function toggleCopyableButton(checked) {
-        if (checked) {
-            copyableButton.classList.remove('btn-primary');
-            copyableButton.classList.add('btn-warning');
-        }
-        else {
-            copyableButton.classList.remove('btn-warning');
-            copyableButton.classList.add('btn-primary');
-        }
-    }
-
-    copyableButton.addEventListener('click', handleCopyableClick);
-</script>
-
-<script>
-    const lineNumberButton = document.querySelector('.line-number-button');
-    const checkBox = document.querySelector('.line-number-checkbox');
-    const lineNumInput = document.querySelector('#startingLineNumber');
-
-    checkBox.checked = false;
-
-    function handleLineNumberClick(e) {
-        e.preventDefault();
-        checkBox.checked = !checkBox.checked;
-        toggleButton(checkBox.checked);
-        toggleInputDisabled(checkBox.checked);
-    }
-
-    function toggleInputDisabled(checked) {
-        if (checked) {
-            lineNumInput.disabled = false;
-        }
-        else {
-            lineNumInput.disabled = true;
-        }
-    }
-
-    function toggleButton(checked) {
-        if (checked) {
-            lineNumberButton.classList.remove('btn-primary');
-            lineNumberButton.classList.add('btn-success');
-            lineNumberButton.innerHTML += `   <i class="glyphicon glyphicon-ok"></i>`
-        }
-        else {
-            lineNumberButton.classList.remove('btn-success');
-            lineNumberButton.classList.add('btn-primary');
-            lineNumberButton.innerHTML = "Include Line Numbers";
-        }
-    }
-
-    lineNumberButton.addEventListener('click', handleLineNumberClick);
+    addOnClickToggle('.terminal-button', '.terminal-checkbox', 'btn-terminal');
+    addOnClickToggle('.copyable-button', '.copyable-checkbox', 'btn-warning');
+    addOnClickToggle('.line-number-button', '.line-number-checkbox', 'btn-success', null, toggleLineNumbers);
+    addOnClickToggle('.codeTag-button', '.codeTag-checkbox', 'btn-info', null, toggleCodeTag);
 </script>

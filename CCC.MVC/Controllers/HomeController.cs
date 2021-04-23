@@ -29,16 +29,19 @@ namespace CCC.MVC.Controllers
             if (model.HasLineNumbers)
                 model.Input = AddLineNumbers(model.Input, model.StartingLineNumber);
 
+            string tag = model.IsCodeTag ? "code" : "pre";
+
             var output = model.Input.Replace("<", "&lt;");
             output = output.Replace(">", "&gt;");
             output = output.Replace("reeeturn", "<br />");
             output = output.Replace("&nbsp;&nbsp;", "&emsp;");
-            output = $"<pre" +
+            output = $"<{tag}" +
                 $"{((model.IsCopyable || model.IsTerminal) ? " class=\"" : "")}" +
-                $"{(model.IsTerminal ? "terminal":"")}" +
-                $"{(model.IsCopyable ? " copyable" : "")}" +
+                $"{(model.IsTerminal ? "terminal" : "")}" +
+                $"{(model.IsTerminal && model.IsCopyable ? " " : "")}" +
+                $"{(model.IsCopyable ? "copyable" : "")}" +
                 $"{((model.IsCopyable || model.IsTerminal) ? "\"" : "")}" +
-                $">" + output + "</pre>";
+                $">" + output + $"</{tag}>";
 
             model.Output = output;
 
@@ -55,7 +58,10 @@ namespace CCC.MVC.Controllers
             for (int i = 0; i < lineBreakArray.Count; i += 2)
             {
                 string indentation = GetIndentation(line);
-                lineBreakArray.Insert(i, line == startingLineNum ? $"{line}{indentation}" : $"reeeturn{line}{indentation}");
+                lineBreakArray.Insert(i, line == startingLineNum
+                        ? $"{(line < 10 ? "&emsp;" : "")}{line}{indentation}"
+                        : $"reeeturn{(line < 10 ? "&emsp;" : "")}{line}{indentation}"
+                    );
                 line++;
             }
 
@@ -65,6 +71,10 @@ namespace CCC.MVC.Controllers
         private string GetIndentation(int lineNumber)
         {
             int spaces = 6 - lineNumber.ToString().Length;
+
+            if (lineNumber < 10)
+                spaces--;
+
             string indentation = "";
 
             for (int i = 0; i < spaces; i++)
